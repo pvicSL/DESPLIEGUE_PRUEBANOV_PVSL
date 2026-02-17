@@ -15,7 +15,7 @@ jobs:
         with:
           node-version: "20"
 
-      - run: npm ci
+      - run: npm install
       - run: npm run build -- --configuration production
 
       # DEBUG: Listar para ver si se crea la carpeta 'browser'
