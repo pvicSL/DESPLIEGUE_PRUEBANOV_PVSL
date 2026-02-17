@@ -20,8 +20,10 @@ jobs:
       # 3. Instalar dependencias y compilar
       - run: npm ci
       - run: npm run build -- --configuration production
+      - name: Listar archivos generados (Debug)
+        run: ls -R dist
 
-      # 4. Crear .htaccess para rutas de Angular
+      # 4. Crear .htaccess dentro de la carpeta browser
       - name: Create .htaccess
         run: |
           cat > dist/series-pruebafebpvsl/browser/.htaccess <<EOF
@@ -32,14 +34,13 @@ jobs:
           RewriteCond %{REQUEST_FILENAME} !-d
           RewriteRule . /index.html [L]
           EOF
-          
 
       # 5. Desplegar al VPS
       - name: Deploy via rsync
         uses: burnett01/rsync-deployments@7.0.1
         with:
           switches: -avzr --delete
-          path: dist/proyecto-series/browser/ 
+          path: dist/series-pruebafebpvsl/browser/
           remote_path: ${{ secrets.VPS_PATH }}
           remote_host: ${{ secrets.VPS_HOST }}
           remote_user: ${{ secrets.VPS_USER }}
