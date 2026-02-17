@@ -9,23 +9,20 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Descargar el código
       - uses: actions/checkout@v4
 
-      # 2. Instalar Node
       - uses: actions/setup-node@v4
         with:
           node-version: "20"
 
-      # 3. Instalar y Compilar
-
+      # 1. Instalar y Compilar
       - name: Install and Build
         working-directory: ./series-pruebafebpvsl
         run: |
           npm install
           npm run build -- --configuration production
 
-      # 4. Crear .htaccess
+      # 2. Crear .htaccess
       - name: Create .htaccess
         working-directory: ./series-pruebafebpvsl
         run: |
@@ -38,16 +35,13 @@ jobs:
           RewriteRule . /index.html [L]
           EOF
 
-      # 5. Desplegar al VPS
+      # 3. Desplegar usando los SECRETOS
       - name: Deploy via rsync
         uses: burnett01/rsync-deployments@7.0.1
         with:
           switches: -avzr --delete
           path: series-pruebafebpvsl/dist/series-pruebafebpvsl/browser/
-          
-     
-          remote_path: /var/www/html/examen
-          
+          remote_path: ${{ secrets.VPS_PATH }}
           remote_host: ${{ secrets.VPS_HOST }}
           remote_user: ${{ secrets.VPS_USER }}
           remote_key: ${{ secrets.VPS_SSH_KEY }}
