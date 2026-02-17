@@ -1,0 +1,20 @@
+<h2>Nueva serie</h2>
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+    <label>
+        Título:
+        <input type="text" formControlName="title">
+    </label>
+
+    <label>
+        Canal (o servicio de streaming):
+        <input type="text" formControlName="channel">
+    </label>
+
+    <label>
+        Puntuación (rating) (0-10):
+        <input type="number" formControlName="rating">
+    </label>
+
+    <button type="submit" [disabled]="form.invalid">Guardar</button>
+</form>

@@ -1,0 +1,16 @@
+<h2>Lista completa de las mejores series</h2>
+
+@if (series$ | async; as series) {
+<ul>
+    @for (serie of series; track serie.id) {
+    <li>
+        <h3>{{ serie.title }}</h3>
+        <p>Canal: {{ serie.channel }} | Puntuación: {{ serie.rating }}</p>
+    </li>
+    } @empty {
+    <li>No hay series que mostrar.</li>
+    }
+</ul>
+} @else {
+<p>Cargando lista...</p>
+}
